@@ -5,49 +5,49 @@ This project implements a RISC-V-based matrix multiplication (GEMM) accelerator 
 
 ## Project Timeline (October-November 2024)
 
-### Week 1 (October 1-7): Project Setup & Architecture Design
+### Week 1: Project Setup & Architecture Design
 - [x] Project structure setup
 - [x] Architecture specification document
 - [x] Interface design (RISC-V custom instruction + memory-mapped registers)
 - [x] Dataflow design (MxK×KxN blocking strategy)
 
-### Week 2 (October 8-14): RTL Implementation - Core Components
+### Week 2 : RTL Implementation - Core Components
 - [x] MAC array implementation (int8/int16 support)
 - [ ] Scratchpad SRAM with double buffering
 - [ ] DMA engine for data movement
 - [ ] Basic control logic and state machine
 
-### Week 3 (October 15-21): RTL Implementation - Integration & Interface
+### Week 3 : RTL Implementation - Integration & Interface
 - [ ] RISC-V custom instruction interface
 - [ ] Memory-mapped register file
 - [ ] Pipeline integration and timing closure
 - [ ] Basic functional verification
 
-### Week 4 (October 22-28): Verification & Testing
+### Week 4 : Verification & Testing
 - [ ] Comprehensive testbench development
 - [ ] Unit tests for all components
 - [ ] Integration tests
 - [ ] Software oracle implementation for verification
 
-### Week 5 (October 29-November 4): Software Integration
+### Week 5 : Software Integration
 - [ ] C driver implementation
 - [ ] TensorFlow Lite Micro integration
 - [ ] Kernel routing for fully-connected and conv-as-GEMM
 - [ ] End-to-end software testing
 
-### Week 6 (November 5-11): FPGA Implementation & Benchmarking
+### Week 6 : FPGA Implementation & Benchmarking
 - [ ] FPGA synthesis and implementation
 - [ ] Timing analysis and optimization
 - [ ] Power measurement setup
 - [ ] MNIST/CIFAR-10/keyword-spotting model deployment
 
-### Week 7 (November 12-18): Performance Analysis & Documentation
+### Week 7 : Performance Analysis & Documentation
 - [ ] Performance benchmarking (latency, throughput, GOPS)
 - [ ] Resource utilization analysis
 - [ ] Power consumption measurements
 - [ ] Roofline analysis (compute vs bandwidth)
 
-### Week 8 (November 19-25): Final Integration & Report
+### Week 8 : Final Integration & Report
 - [ ] Final system integration
 - [ ] Complete documentation
 - [ ] Performance comparison with baseline RISC-V software
@@ -62,7 +62,8 @@ BTECH-PROJECT/
 │   └── architecture.md                 # Detailed architecture specification
 ├── rtl/                                # RTL Implementation
 │   └── mac_array/                     # MAC array implementation ✅ IMPLEMENTED
-│       └── mac_array.v                # 8x8 MAC array with int8/int16 support
+│       ├── mac_array.v                # 8x8 MAC array with int8/int16 support
+│       └── pe.v                       # Single Processing Element (MAC unit)
 ├── [TO BE IMPLEMENTED]                 # Future components
 │   ├── rtl/
 │   │   ├── scratchpad/                # Scratchpad SRAM with double buffering
