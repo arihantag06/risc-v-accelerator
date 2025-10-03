@@ -1,5 +1,5 @@
 // MAC Array - NxN grid of PEs
-// Each PE computes a multiply-accumulate operation in parallel
+// Each PE(i,j) computes A[i,k] * B[k,j] and accumulates into C[i,j]
 
 module mac_array #(
     parameter MAC_WIDTH  = 8,   // Array size = MAC_WIDTH x MAC_WIDTH
@@ -11,12 +11,14 @@ module mac_array #(
     input  wire enable,
     input  wire clear_acc,
 
-    // Packed input row of A and column of B
-    input  wire [MAC_WIDTH*DATA_WIDTH-1:0] matrix_a_row,
-    input  wire [MAC_WIDTH*DATA_WIDTH-1:0] matrix_b_col,
+    // Row inputs: one element of A for each row (A[i,k])
+    input  wire [DATA_WIDTH-1:0] a_row [0:MAC_WIDTH-1],
 
-    // Packed accumulators from each PE
-    output wire [MAC_WIDTH*MAC_WIDTH*ACC_WIDTH-1:0] accumulators
+    // Column inputs: one element of B for each column (B[k,j])
+    input  wire [DATA_WIDTH-1:0] b_col [0:MAC_WIDTH-1],
+
+    // Accumulator outputs for each C[i,j]
+    output wire [ACC_WIDTH-1:0] c_acc [0:MAC_WIDTH-1][0:MAC_WIDTH-1]
 );
 
     genvar i, j;
@@ -31,11 +33,9 @@ module mac_array #(
                     .rst_n(rst_n),
                     .enable(enable),
                     .clear_acc(clear_acc),
-                    // Slice out one element of A row and B col
-                    .a_in(matrix_a_row[((i+1)*DATA_WIDTH-1) : (i*DATA_WIDTH)]),
-                    .b_in(matrix_b_col[((j+1)*DATA_WIDTH-1) : (j*DATA_WIDTH)]),
-                    // Place this PE's accumulator in the packed bus
-                    .acc_out(accumulators[((i*MAC_WIDTH + j + 1)*ACC_WIDTH-1) : ((i*MAC_WIDTH + j)*ACC_WIDTH)])
+                    .a_in(a_row[i]),          // A[i,k]
+                    .b_in(b_col[j]),          // B[k,j]
+                    .acc_out(c_acc[i][j])     // C[i,j]
                 );
             end
         end
